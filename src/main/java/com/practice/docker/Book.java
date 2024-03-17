@@ -17,6 +17,7 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer bookId;
+	
 	private String bookName;
 	private Long bookPrice;
 

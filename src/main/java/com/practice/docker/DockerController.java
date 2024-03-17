@@ -24,7 +24,7 @@ public class DockerController {
 		b.setBookPrice(200L);
 		
 		Book b1= new Book();
-		b1.setBookId(1);
+		b1.setBookId(2);
 		b1.setBookName("Common Sense");
 		b1.setBookPrice(200L);
 		List<Book> saveAll = bookRepository.saveAll(List.of(b,b1));
