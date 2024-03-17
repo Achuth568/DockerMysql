@@ -1,11 +1,21 @@
-# Use the official OpenJDK image for JDK 17 as a parent image
-FROM openjdk:17-slim
+# Use OpenJDK 17 slim image
+FROM openjdk:17-slim as build
 
-# Set the working directory inside the container
+# Set the working directory in Docker
 WORKDIR /app
 
-# Copy the jar file from your host to the current location (WORKDIR) inside the container
-COPY /DockerMysql/target/DockerMysql-0.0.1-SNAPSHOT.jar /app/DockerMysql.jar
+# Copy the Maven project
+COPY . .
 
-# Command to run the application
-ENTRYPOINT ["java","-jar","DockerMysql.jar"]
+# Build the project with Maven
+RUN ./mvnw clean package
+
+# Start with a new image to keep it clean
+FROM openjdk:17-slim
+
+WORKDIR /app
+
+# Copy only the jar from the previous stage
+COPY --from=build /app/target/*.jar app.jar
+
+ENTRYPOINT ["java","-jar","app.jar"]
